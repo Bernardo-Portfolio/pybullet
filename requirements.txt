@@ -1,0 +1,4 @@
+python3
+numpy
+pybullet
+freeglut3-dev
