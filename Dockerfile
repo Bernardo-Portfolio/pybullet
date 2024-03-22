@@ -12,7 +12,8 @@ RUN apt update && \
 apt install sudo && \   
 sudo apt update && \
 sudo apt install $(cat requirements/requirements.apt| tr ' ' "\n") -y && \
-python3 -m pip install -r requirements/requirements.pip && \
+python3 -m pip install -r requirements/requirements.pip
 
 
-RUN git clone https://github.com/adubredu/pybullet_kitchen
+RUN echo "${git_username} ${git_password}">args.txt && \
+git clone https://github.com/adubredu/pybullet_kitchen
