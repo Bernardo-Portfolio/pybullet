@@ -1,0 +1,28 @@
+<?xml version="0.0" ?>
+<robot name="mug.urdf">
+  <link name="baseLink">
+    <contact>
+      <lateral_friction value="1.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.03147122 0.00737286 0.11323534"/>
+       <mass value="0.375"/>
+       <inertia ixx = "0.00208289" ixy = "-0.00012721" ixz = "0.00000223" iyy = "0.00259609" iyz = "0.00000052" izz = "0.00229206"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+		<mesh filename="Mug.dae" scale="1 1 1"/>
+      </geometry>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+		<mesh filename="Mug.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
