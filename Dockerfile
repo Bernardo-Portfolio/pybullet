@@ -7,6 +7,9 @@ LABEL my_label="pybullet trial"
 
 COPY requirements.apt requirements/requirements.apt
 COPY requirements.pip requirements/requirements.pip
+COPY models models
+COPY src src
+COPY utils utils
 
 RUN apt update && \
 apt install sudo && \   
