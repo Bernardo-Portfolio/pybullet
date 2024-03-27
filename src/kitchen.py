@@ -76,16 +76,14 @@ if __name__ == '__main__':
     p.setRealTimeSimulation(1)
     p.setGravity(0, 0, -9.81)
     p.setPhysicsEngineParameter(enableConeFriction=0)
-    distance = 10000
+    distance = 100
     img_w, img_h = 120, 80
 
     
-    wheels = [2,3]
+    wheels = [2,3,6,7]
     steering = [4, 6]
 
-    targetVelocitySlider = p.addUserDebugParameter("wheelVelocity", -10, 10, 0)
-    maxForceSlider = p.addUserDebugParameter("maxForce", 0, 10, 10)
-    steeringSlider = p.addUserDebugParameter("steering", -0.5, 0.5, 0)
+  
     
  
 
@@ -101,15 +99,16 @@ if __name__ == '__main__':
 
 
     
-    p.addUserDebugText()
+
     # for wheel in inactive_wheels:
     #     p.setJointMotorControl2(kitchen.boxId, wheel, p.VELOCITY_CONTROL, targetVelocity=0, force=0)
     while True:
         robot_pos, robot_ori = p.getBasePositionAndOrientation(kitchen.boxId)
-        robot_yaw = p.getEulerFromQuaternion(robot_ori)[-1]
+        # robot_yaw = p.getEulerFromQuaternion(robot_ori)[-1]
+        robot_yaw = 1.57
         xA, yA, zA = robot_pos
-        yA += 0.1
-        zA += 0.3
+        yA += 0.25 #0.3
+        zA += 0.45
         
         xB = xA + math.cos(robot_yaw)*distance
         yB = yA + math.sin(robot_yaw)*distance
@@ -119,44 +118,45 @@ if __name__ == '__main__':
                                           cameraTargetPosition=[xB,yB,zB],
                                           cameraUpVector=[0,0,1.0])
         
-        projection_matrix = p.computeProjectionMatrixFOV(fov=90, aspect=1.0, nearVal=0.02, farVal=3.5)
+        projection_matrix = p.computeProjectionMatrixFOV(fov=90, aspect=1.0, nearVal=0.03, farVal=3.5)
 
         img = p.getCameraImage(img_w, img_h, view_matrix, projection_matrix, shadow=True, renderer=p.ER_BULLET_HARDWARE_OPENGL)
 
-        maxForce = p.readUserDebugParameter(maxForceSlider)
-        targetVelocity = p.readUserDebugParameter(targetVelocitySlider)
-        steeringAngle = p.readUserDebugParameter(steeringSlider)
+        # maxForce = p.readUserDebugParameter(maxForceSlider)
+        # targetVelocity = p.readUserDebugParameter(targetVelocitySlider)
+        # steeringAngle = p.readUserDebugParameter(steeringSlider)
         #print(targetVelocity)
 
         for wheel in wheels:
             _,joint_vel,_,_ = p.getJointState(kitchen.boxId, wheel)
-            s = ''.join(str(x) for x in joint_vel)
-            p.addUserDebugText(s, [1,1,1])
+            p.addUserDebugText(str(joint_vel), [0, 0, 1],
+                           lifeTime=0.25,
+                           textSize=2.5,
+                           parentObjectUniqueId=kitchen.boxId)
             
             p.setJointMotorControl2(kitchen.boxId,
                                     wheel,
                                     p.VELOCITY_CONTROL,
-                                    targetVelocity=targetVelocity,
-                                    force=maxForce)
+                                    targetVelocity=2,
+                                    force=10)
 
-        p.resetDebugVisualizerCamera(cameraDistance=0.0, cameraYaw=0, cameraPitch=0, cameraTargetPosition=kitchen.camera_pos)
+        #p.resetDebugVisualizerCamera(cameraDistance=0.0, cameraYaw=0, cameraPitch=0, cameraTargetPosition=kitchen.camera_pos)
         #img = p.getCameraImage(224, 224, renderer=p.ER_BULLET_HARDWARE_OPENGL)
-        time.sleep(30)
+        # time.sleep(30)
         #open all drawers
-        for i in range(10):
-            drawer_id = i+1
-            kitchen.open_drawer(drawer_id)
-            time.sleep(1)
+        
+        drawer_id = 2
+        kitchen.open_drawer(drawer_id)
+        time.sleep(1)
 
-        time.sleep(10)
+        # time.sleep(10)
 
         #close all drawers
-        for i in range(10):
-            drawer_id = i+1
-            kitchen.close_drawer(drawer_id)
-            time.sleep(1)
+        drawer_id = 2
+        kitchen.close_drawer(drawer_id)
+        time.sleep(4)
 
-        time.sleep(10)
+        # time.sleep(10)
 
 
 
