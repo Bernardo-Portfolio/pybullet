@@ -1,0 +1,28 @@
+<?xml version="0.0" ?>
+<robot name="fridge.urdf">
+  <link name="baseLink">
+    <contact>
+      <lateral_friction value="1.0"/>
+    </contact>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.44713227 0.3 1.27372601"/>
+       <mass value="120"/>
+       <inertia ixx = "34.84336659" ixy = "-0.02635768" ixz = "0.00231567" iyy = "39.90255283" iyz = "0.05235780" izz = "11.63435279"/>
+    </inertial>
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+		<mesh filename="fridge.dae" scale="1 1 1"/>
+      </geometry>
+       <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+		<mesh filename="fridge.dae" scale="1 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+</robot>
